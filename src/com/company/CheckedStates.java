@@ -7,7 +7,7 @@ public class CheckedStates {
     static Map checkedStates = new HashMap();
 
     static void addNewStateToCheckedStates (State state) {
-        checkedStates.put(state.stateAsInt,state.initialState);
+        checkedStates.put(state.stateAsInt,null);
     }
 
     static boolean isChecked(int stateAsInt) {

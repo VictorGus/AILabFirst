@@ -22,16 +22,16 @@ public class TreeNode<T> implements Iterable<TreeNode<T>> {
 
     public TreeNode(T data) {
         this.data = data;
-        this.children = new LinkedList<TreeNode<T>>();
-        this.elementsIndex = new LinkedList<TreeNode<T>>();
-        this.elementsIndex.add(this);
+        //this.children = new LinkedList<TreeNode<T>>();
+        //this.elementsIndex = new LinkedList<TreeNode<T>>();
+        //this.elementsIndex.add(this);
     }
 
     public TreeNode<T> addChild(T child) {
         TreeNode<T> childNode = new TreeNode<T>(child);
         childNode.parent = this;
-        this.children.add(childNode);
-        this.registerChildForSearch(childNode);
+        //this.children.add(childNode);
+        //this.registerChildForSearch(childNode);
         return childNode;
     }
 
