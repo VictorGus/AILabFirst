@@ -5,7 +5,7 @@ public class State implements CommonFunctions {
     int [][] initialState = new int[3][3];
     int [] gap = new int[2];
     //PreviousMovement previousMovement;
-    int stateAsInt;
+    long stateAsInt;
     boolean deadEnd;
     State(int[][] initializingState) {
         for(int i = 0; i < 3; i++) {

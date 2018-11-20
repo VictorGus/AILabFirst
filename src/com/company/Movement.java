@@ -4,7 +4,7 @@ public class Movement {
 
     public static State move(State state) {
         State stateAfterMovement;
-        if(state.deadEnd!=true) {
+        if (state.deadEnd != true) {
             if ((state.gap[0] == 1 || state.gap[0] == 2) && !(CheckedStates.isChecked(CommonFunctions.matrixToInt(state.moveDown(state))))) {
                 stateAfterMovement = new State(state.moveDown(state));
                 CheckedStates.addNewStateToCheckedStates(stateAfterMovement);
@@ -22,8 +22,7 @@ public class Movement {
                 stateAfterMovement.deadEnd = true;
             }
             return stateAfterMovement;
-        }
-        else {
+        } else {
             stateAfterMovement = state;
             System.out.println("It's deadend");
         }

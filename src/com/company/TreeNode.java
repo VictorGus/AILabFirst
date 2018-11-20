@@ -9,6 +9,7 @@ public class TreeNode<T> implements Iterable<TreeNode<T>> {
     public T data;
     public TreeNode<T> parent;
     public List<TreeNode<T>> children;
+    private int level = -1;
 
     public boolean isRoot() {
         return parent == null;
@@ -61,9 +62,16 @@ public class TreeNode<T> implements Iterable<TreeNode<T>> {
     public TreeNode<State> findNotDeadEnd(TreeNode<State> node) {
         if (node.data.deadEnd == false) {
             return node;
-        }
-        else {
+        } else {
             return this.findNotDeadEnd(node.parent);
+        }
+    }
+
+    public void showPathToState(TreeNode<State> node) {
+        while(node.parent!=null) {
+            node.data.printStateOfBoard(node.data.initialState);
+            System.out.println();
+            node = node.parent;
         }
     }
 
@@ -78,4 +86,15 @@ public class TreeNode<T> implements Iterable<TreeNode<T>> {
         return iter;
     }
 
+//    public int getLevel() {
+//        if (this.isRoot())
+//            return 0;
+//        else if (this.level == -1)
+//            this.setLevel();
+//        return this.level;
+//    }
+//
+//    public void setLevel() {
+//        this.level = this.parent.getLevel() + 1;
+//    }
 }

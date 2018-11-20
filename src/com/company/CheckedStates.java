@@ -10,7 +10,7 @@ public class CheckedStates {
         checkedStates.put(state.stateAsInt,null);
     }
 
-    static boolean isChecked(int stateAsInt) {
+    static boolean isChecked(long stateAsInt) {
         return checkedStates.containsKey(stateAsInt);
     }
 }

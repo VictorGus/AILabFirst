@@ -9,7 +9,7 @@ public interface CommonFunctions {
         if (currentState == null) {
             throw new IllegalArgumentException("The state cannot be empty");
         }
-        int[][] goalState = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}};
+        int[][] goalState = {{1, 2, 3}, {4, 0, 5}, {6, 7, 8}};
         int count = 0;
         for (int i = 0; i < 3; i++) {
             if (Arrays.equals(goalState[i], currentState[i])) {
@@ -73,7 +73,7 @@ public interface CommonFunctions {
         return newState;
     }
 
-    static public int matrixToInt(int[][] matrix) {
+    static public long matrixToInt(int[][] matrix) {
         char[] matrixToCharArray = new char[9];
         matrixToCharArray[0] = Character.forDigit(matrix[0][0], 10);
         matrixToCharArray[1] = Character.forDigit(matrix[0][1], 10);
@@ -85,7 +85,7 @@ public interface CommonFunctions {
         matrixToCharArray[7] = Character.forDigit(matrix[2][1], 10);
         matrixToCharArray[8] = Character.forDigit(matrix[2][2], 10);
         String stringMatrix = new String(matrixToCharArray);
-        int matrixInt = Integer.parseInt(stringMatrix);
+        long matrixInt = Integer.parseInt(stringMatrix);
         return matrixInt;
     }
 }

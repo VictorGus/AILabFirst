@@ -8,11 +8,16 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
-    static int[][] initialState = {{3, 6, 4}, {2, 5, 8}, {7, 1, 0}};
+    static int[][] initialState = {{0, 4, 3}, {6, 2, 1}, {7, 5, 8}};
     static State state = new State(initialState);
     static TreeNode<State> nodes = new TreeNode(state);
-    static final int deadWall = 10000;
-
+    static final int deadWall = 600000;
+    static Thread thread1;
+    static boolean goal = false;
+    static TreeNode<State> goalNode;
+    static int iteration = 0;
+    static int amountOfDeadEndStates = 0;
+    static int amountOfFoundGoals = 0;
     public static void main(String[] args) {
         //int[][] initialState = {{3, 1, 2}, {4, 0, 5}, {6, 7, 8}};
         CheckedStates.addNewStateToCheckedStates(state);
@@ -22,65 +27,47 @@ public class Main {
         checkedStates.addNewStateToCheckedStates(state);
         System.out.println(checkedStates.isChecked(asIntForCheck));
         */
-        //TreeNode<State>[] nodes = new TreeNode[100];
-
-
-        Runnable run1 = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                Main.runTask();
-
-            }
-        };
-        Runnable run2 = new Runnable() {
-            @Override
-            public void run() {
-                System.out.println("SECOND THREAD");
-                //Scanner check = new Scanner(System.in);
-                //check.nextInt();
-
-                Main.runTask();
-            }
-        };
-
-        Thread thread1 = new Thread(run1);
-        Thread thread2 = new Thread(run2);
-
-        thread1.run();
-        thread2.run();
+        Main.runTask();
+        System.out.println("Amount of states "+iteration);
+        System.out.println("Amount of fully revealed states "+amountOfDeadEndStates);
+        if(goal) {
+            System.out.println("The goal state has been found");
+            state.printStateOfBoard(goalNode.data.initialState);
+            System.out.println("Level is of goal state is "+ goalNode.getLevel());
+            goalNode.showPathToState(goalNode);
+            System.out.println("Amount of found goal states " + amountOfFoundGoals);
+        }
 
     }
 
     public static void runTask() {
         while (true) {
             if (CommonFunctions.isGoalState(nodes.data.initialState)) {
-                System.out.println("GOAL!!!");
-                break;
+                goal = true;
+                goalNode = nodes;
+                amountOfFoundGoals++;
             }
             state = Movement.move(state);
             nodes = nodes.addChild(state);
-            nodes.data.printStateOfBoard(nodes.data.initialState);
-            System.out.println("Level is " + nodes.getLevel());
-            System.out.println();
-            if (nodes.getLevel() == deadWall) {
-                nodes.data.deadEnd = true;
-            }
+//            if (nodes.getLevel() == deadWall) {
+//                nodes.data.deadEnd = true;
+//            }
+            iteration++;
             if ((nodes.data.deadEnd == true)) {
+                amountOfDeadEndStates++;
                 if (nodes.parent.parent == null) {
+                    System.out.println("Last state:");
                     state.printStateOfBoard(nodes.parent.data.initialState);
-                    System.out.println("Ti pidor ya prishel, otkrivay");
+                    if(!goal) {
+                        System.out.println("The goal state hasn't been found");
+                    }
                     break;
                 }
                 nodes = nodes.findNotDeadEnd(nodes.parent);
                 state = nodes.data;
-                System.out.println("NOT DEADEND");
-                state.printStateOfBoard(nodes.data.initialState);
-                System.out.println("NOT DEADEND");
+                //System.out.println("DEADEND OCCURED");
+                //state.printStateOfBoard(nodes.data.initialState);
+                //System.out.println("NOT DEADEND");
             }
         }
     }
