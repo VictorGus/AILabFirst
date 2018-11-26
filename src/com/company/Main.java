@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
-    static int[][] initialState = {{0, 4, 3}, {6, 2, 1}, {7, 5, 8}};
+    static int[][] initialState = {{5, 8, 3}, {4, 0, 2}, {7, 6, 1}};
     static State state = new State(initialState);
     static TreeNode<State> nodes = new TreeNode(state);
     static final int deadWall = 10000;
@@ -30,7 +30,9 @@ public class Main {
         checkedStates.addNewStateToCheckedStates(state);
         System.out.println(checkedStates.isChecked(asIntForCheck));
         */
-        Main.runTask();
+        //Main.runTask();
+        //Main.runTask2();
+        Main.runTask3();
         System.out.println("Amount of states "+iteration);
         System.out.println("Amount of fully revealed states "+amountOfDeadEndStates);
         if(goal) {
@@ -66,9 +68,89 @@ public class Main {
             }
             state = Movement.move(state);
             nodes = nodes.addChild(state);
-            if (nodes.getLevel() == deadWall) {
-                nodes.data.deadEnd = true;
+//            if (nodes.getLevel() == deadWall) {
+//                nodes.data.deadEnd = true;
+//            }
+            iteration++;
+            if ((nodes.data.deadEnd == true)) {
+                amountOfDeadEndStates++;
+                if (nodes.parent.parent == null) {
+                    System.out.println("Last state:");
+                    state.printStateOfBoard(nodes.parent.data.initialState);
+                    if(!goal) {
+                        System.out.println("The goal state hasn't been found");
+                    }
+                    break;
+                }
+                nodes = nodes.findNotDeadEnd(nodes.parent);
+                state = nodes.data;
+                //System.out.println("DEADEND OCCURED");
+                //state.printStateOfBoard(nodes.data.initialState);
+                //System.out.println("NOT DEADEND");
             }
+        }
+    }
+
+    public static void runTask2() {
+        while (true) {
+            if (CommonFunctions.isGoalState(nodes.data.initialState)) {
+                goal = true;
+                if(amountOfFoundGoals == 0) {
+                    minGoalNode = nodes;
+                    goalNode = minGoalNode;
+                    iterationsBeforeGoal = iteration;
+                    nodesBeforeGoal = amountOfDeadEndStates;
+                }
+                else if (nodes.getLevel()<minGoalNode.getLevel()){
+                    goalNode = nodes;
+                    minGoalNode = nodes;
+                    iterationsBeforeGoal = iteration;
+                    nodesBeforeGoal = amountOfDeadEndStates;
+                }
+                amountOfFoundGoals++;
+            }
+            state = Movement.smartMoveh1(state);
+            nodes = nodes.addChild(state);
+            iteration++;
+            if ((nodes.data.deadEnd == true)) {
+                amountOfDeadEndStates++;
+                if (nodes.parent.parent == null) {
+                    System.out.println("Last state:");
+                    state.printStateOfBoard(nodes.parent.data.initialState);
+                    if(!goal) {
+                        System.out.println("The goal state hasn't been found");
+                    }
+                    break;
+                }
+                nodes = nodes.findNotDeadEnd(nodes.parent);
+                state = nodes.data;
+                //System.out.println("DEADEND OCCURED");
+                //state.printStateOfBoard(nodes.data.initialState);
+                //System.out.println("NOT DEADEND");
+            }
+        }
+    }
+
+    public static void runTask3() {
+        while (true) {
+            if (CommonFunctions.isGoalState(nodes.data.initialState)) {
+                goal = true;
+                if(amountOfFoundGoals == 0) {
+                    minGoalNode = nodes;
+                    goalNode = minGoalNode;
+                    iterationsBeforeGoal = iteration;
+                    nodesBeforeGoal = amountOfDeadEndStates;
+                }
+                else if (nodes.getLevel()<minGoalNode.getLevel()){
+                    goalNode = nodes;
+                    minGoalNode = nodes;
+                    iterationsBeforeGoal = iteration;
+                    nodesBeforeGoal = amountOfDeadEndStates;
+                }
+                amountOfFoundGoals++;
+            }
+            state = Movement.smartMoveh2(state);
+            nodes = nodes.addChild(state);
             iteration++;
             if ((nodes.data.deadEnd == true)) {
                 amountOfDeadEndStates++;

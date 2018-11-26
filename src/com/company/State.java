@@ -4,7 +4,6 @@ public class State implements CommonFunctions {
 
     int [][] initialState = new int[3][3];
     int [] gap = new int[2];
-    //PreviousMovement previousMovement;
     long stateAsInt;
     boolean deadEnd;
     State(int[][] initializingState) {
@@ -19,7 +18,6 @@ public class State implements CommonFunctions {
         }
         deadEnd = false;
         stateAsInt = CommonFunctions.matrixToInt(initialState);
-        //this.previousMovement = previousMovement;
     }
 
 }
